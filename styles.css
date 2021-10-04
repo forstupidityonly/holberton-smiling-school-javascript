@@ -1,0 +1,141 @@
+:root {
+    --font-family-one: "Source Sans Pro", sans-serif;
+    --font-family-two: "spin Cycle OT", sans-serif;
+    --font-weight-xx-bold: 900;
+    --font-weight-x-bold: 700;
+    --font-weight-bold: 600;
+    --font-weight-regular: 400;
+    --font-weight-small: 300;
+    --font-size-tiny: 12px;
+    --font-size-xs: 14px;
+    --font-size-s: 16px;
+    --font-size-m: 18px;
+    --font-size-lg: 22px;
+    --font-size-xl: 32px;
+    --font-size-xxl: 60px;
+    --font-size-jumbo: 120px;
+    /* Colors */
+    --violet-color: #c271ff;
+    --blue-color: #071629;
+    --white-color: #F2F2F2;
+}
+
+header {
+    background-image: url(images/pic_1.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 1093px;
+}
+
+header.pricing-header {
+    background-image: url(images/pic_2.jpg);
+}
+
+body {
+    background-color: var(--blue-color);
+}
+
+.icon {
+    font-size: 20px;
+}
+
+.nav-item {
+    font-weight: var(--font-weight-x-bold);
+    font-size: var(--font-size-tiny);
+}
+
+.get-schooled {
+    font-size: var(--font-size-jumbo);
+    font-weight: var(--font-weight-x-bold);
+    padding-top: 166px;
+}
+
+.sgl {
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-x-bold);
+}
+
+.vilot-button {
+    background-color: var(--violet-color);
+}
+
+.heading-2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-small);
+    padding-top: 181px;
+    padding-bottom: 87px;
+}
+
+.pros > h3 {
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-xx-bold);
+}
+
+.pros > p {
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-regular);
+}
+
+.testimonials {
+    background-color: var(--violet-color);
+}
+
+.text-car, .text-cars {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-regular);
+}
+
+.text-cars {
+    font-weight: var(--font-weight-x-bold);
+}
+
+.Most-popular-tutorials {
+    background-color: var(--white-color);
+}
+
+.thumb-img {
+    Width: 255px;
+    Height: 335px;
+}
+
+.vilot-text {
+    color: var(--violet-color);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+}
+
+h2.vilot-text {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-x-bold);
+}
+
+.member-item {
+    Width: 255px;
+    Height: 335px;
+}
+
+.latest-videos {
+    background-color: var(--white-color);
+}
+
+footer {
+   height: 195px; 
+}
+
+h4 {
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-xx-bold);
+}
+
+@media (max-width:768px) {}
+
+
+@media (max-width:576px) {
+    .get-schooled {
+        font-size: var(--font-size-xxl);
+    }
+
+    header {
+        height: 1386px;
+    }
+}
