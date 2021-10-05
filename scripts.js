@@ -6,13 +6,13 @@ function isLoaded(status, element) {
     }
 }
 
-function carouselLoader1(item, i) {
+function carouselLoader1(item, i, div) {
     let active = ""
     if (!i) {
         active = "active";
     }
 
-    $("#inner-carousel-1").append(`
+    $(div).append(`
     <div class="carousel-item ${active} px-5">
         <div class="row d-flex justify-content-center align-items-center flex-md-row flex-column px-5">
             <div class="d-flex justify-content-end">
@@ -63,30 +63,44 @@ function carouselLoader2(item, i, div) {
     `)
 }
 
-function getCarouselData1() {
-    var settings = {
-        "url": "https://smileschool-api.hbtn.info/quotes",
-        "method": "GET",
-        "contentType": "application/json",
-        "timeout": 0,
-        "beforeSend": isLoaded(true, "#inner-carousel-1"),
-        "success": function(result) {
-            // $("#inner-carousel").empty
-            isLoaded(false, "#inner-carousel-1");
-            result.forEach((item, i) => {carouselLoader1(item, i)})
-        }
-    };
+function carouselLoader3(item, i, div) {
+    let active = ""
+    if (!i) {
+        active = "active";
+    }
 
-    $.ajax(settings).done(function (response) {
-        let carousel1 = response[0];
-        let carousel2 = response[1];
-        carouselLoader1(carousel1, carousel2);
-    });
+    $(div).append(`
+        <div class="carousel-item ${active} px-5">
+            <div class="row d-flex justify-content-center align-items-center flex-md-row flex-column">
+                <div class="col-12 col-sm-4 col-md-4 col-lg-3 d-flex justify-content-sm-end justify-content-center ">
+                    <img src="${item.pic_url}" alt="..." class="rounded-circle" width="150">
+                </div>
+                <div class="col pr-5 mr-4 pt-5 pt-sm-0">
+                    <p class="font-italic">${item.text}</p>
+                <h6 class="font-weight-bold m-0 mb-1">${item.name}</h6>
+                    <p class="font-italic m-0">${item.title}</p>
+                </div>
+            </div>
+        </div>
+    `)
+}
+
+
+function getCarouselData1() {
+    $.ajax({
+            url: 'https://smileschool-api.hbtn.info/quotes',
+            method: "GET",
+            contentType: "application/json",
+            timeout: 0,
+            beforeSend: isLoaded(true, "#inner-carousel-1"),
+            success: function (result) {
+                isLoaded(false, "#inner-carousel-1");
+                result.forEach((item, i) => {carouselLoader1(item, i, "#inner-carousel-1")})
+            }}
+        );
 };
 
 function getCarouselData2() {
-    
-
     $.ajax({
             url: 'https://smileschool-api.hbtn.info/popular-tutorials',
             method: "GET",
@@ -101,8 +115,6 @@ function getCarouselData2() {
 };
 
 function getCarouselData3() {
-    
-
     $.ajax({
             url: 'https://smileschool-api.hbtn.info/latest-videos',
             method: "GET",
@@ -116,9 +128,31 @@ function getCarouselData3() {
         );
 };
 
+function getCarouselData4() {
+    $.ajax({
+            url: 'https://smileschool-api.hbtn.info/quotes',
+            method: "GET",
+            contentType: "application/json",
+            timeout: 0,
+            beforeSend: isLoaded(true, "#inner-carousel-pricing"),
+            success: function (result) {
+                isLoaded(false, "#inner-carousel-pricing");
+                result.forEach((item, i) => {carouselLoader3(item, i, "#inner-carousel-pricing")})
+            }}
+        );
+};
+
+function getCourses() {
+    $.ajax({
+        url: 'https://smileschool-api.hbtn.info/courses',
+
+    });
+}; 
+
 $(document).ready(function() {
     getCarouselData1();
     getCarouselData2();
     getCarouselData3();
+    getCarouselData4();
 })
 
