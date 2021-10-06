@@ -3,7 +3,7 @@
     <head>
         <!-- Meta Tags -->
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, intitial-scale=1, viewport-fit=cover">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
         <!-- Tab title -->
         <link rel="icon" type="image/png" href="images/favicon.png" />
@@ -18,8 +18,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="font-styles.css">
+        <link rel="stylesheet" href="holberton_school-icon/style.css">
         <link rel="stylesheet" href="carlos-styles.css">
+        <script src="scripts.js"></script>
     </head>
     <!-- Body -->
     <body>
@@ -46,42 +47,8 @@
             </header>
             <section class="Input sections" style="background-color: #C271FF;">
                 <div class="container">
-                    <div class="row py-4">
-                        <div class="col-6 col-sm-12 col-md-12 col-lg-4 box1">
-                            <span class="text-white font-weight-bold drop-down-title">KEYWORDS</span>
-                            <div class="input-group mb-sm-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text holberton_school-icon-search_1"></span>
-                                </div>
-                                    <input type="text" class="form-control search-text-area" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search by keywords"/>
-                            </div>
-                        </div>
-                        <div class="col-6 col-sm-12 col-md-6 col-lg-4 box2">
-                            <span class="text-white font-weight-bold drop-down-title">TOPIC</span>
-                            <div class="dropdown border border-light">
-                                <a class="btn dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span>Novice</span>
-                                </a>
-                                <div class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Novice</a>
-                                    <a class="dropdown-item" href="#">Intermediate</a>
-                                    <a class="dropdown-item" href="#">Expert</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-sm-12 col-md-6 col-lg-4 box3">
-                            <span class="text-white font-weight-bold drop-down-title">SORT BY</span>
-                            <div class="dropdown border border-light">
-                                <a class="btn dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span>Most Popular</span>
-                                </a>
-                                <div class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Most Popular</a>
-                                    <a class="dropdown-item" href="#">Most Recent</a>
-                                    <a class="dropdown-item" href="#">Most Viewed</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row py-4" id="filterBar">
+                        <!-- Content added dynamically in scripts.js -->
                     </div>
                 </div>
             </section>
@@ -90,7 +57,7 @@
                     <div class="section-title" id="videosNumber">
                         <!--  <span class="text-muted video-count">11 videos</span> -->
                     </div>
-                    <div class="row">
+                    <div class="row" id="cardsSection">
                     <!--
                         <div class="col-12 col-sm-12 col-md-4 col-lg-3 d-flex justify-content-center">
                             <div class="card">

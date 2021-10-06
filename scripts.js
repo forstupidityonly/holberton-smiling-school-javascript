@@ -2,6 +2,7 @@ function isLoaded(status, element) {
     if(status) {
         $(element).wrap('<div class="loader"></div>');
     } else {
+        console.log("test1");
         $(element).unwrap();
     }
 }
@@ -85,6 +86,92 @@ function carouselLoader3(item, i, div) {
     `)
 }
 
+function coursesFilterLoader(result, div) {
+    const{topics} = result;
+    let topicData = '';
+    for (let i = 0; i < topics.length; i++) {
+        let tmp1 = '<a class="dropdown-item" href="#">';
+        let tmp2 = '</a>';
+        let tmp3 = tmp1 + topics[i] + tmp2;
+        topicData += tmp3
+    }
+
+    const{sorts} = result;
+    let sortData = '';
+    for (let i = 0; i < sorts.length; i++) {
+        let tmp0 = sorts[i].replace(/_|\-/, " ");
+        let tmp1 = '<a class="dropdown-item" href="#">';
+        let tmp2 = '</a>';
+        let tmp3 = tmp1 + tmp0 + tmp2
+        sortData += tmp3
+    }
+    $(div).append(`
+        <div class="col-6 col-sm-12 col-md-12 col-lg-4 box1">
+            <span class="text-white font-weight-bold drop-down-title">KEYWORDS</span>
+            <div class="input-group mb-sm-4">
+                <div class="input-group-prepend">
+                    <span class="input-group-text holberton_school-icon-search_1"></span>
+                </div>
+                <input type="text" class="form-control search-text-area" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search by keywords"/>
+            </div>
+        </div>
+        <div class="col-6 col-sm-12 col-md-6 col-lg-4 box2">
+            <span class="text-white font-weight-bold drop-down-title">TOPIC</span>
+            <div class="dropdown border border-light">
+                <a class="btn dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Novice</span>
+                </a>
+                <div class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink">
+                    ${topicData}
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-sm-12 col-md-6 col-lg-4 box3">
+            <span class="text-white font-weight-bold drop-down-title">SORT BY</span>
+            <div class="dropdown border border-light">
+                <a class="btn dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Most Popular</span>
+                </a>
+                <div class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink">
+                    ${sortData}
+                </div>
+            </div>
+        </div>
+    `)
+}
+
+function coursesCardLoader(item, i, div) {
+    let starData = '';
+    for (let j = 0; j < item.star; j++) {
+        starData += '<img src="images/star_on.png"  height="15" width="15"></img>';
+    }
+    for (let j = (5 - item.star); j > 0; j--) {
+        starData += '<img src="images/star_off.png"  height="15" width="15"></img>';
+    }
+    $(div).append(`
+        <div class="col-12 col-sm-12 col-md-4 col-lg-3 d-flex justify-content-center">
+            <div class="card">
+                <img src="${item.thumb_url}" class="card-img-top" alt="Video thumbnail"/>
+                <div class="card-img-overlay text-center">
+                    <img src="images/play.png" alt="Play" width="64px" class="align-self-center play-overlay"/>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">${item.title}</h5>
+                    <p class="card-text text-muted">${item["sub-title"]}</p>
+                    <div class="creator d-flex align-items-center">
+                        <img src="${item.author_pic_url}" alt="Creator of Video" width="30px" class="rounded-circle"/>
+                        <h6 class="pl-3 m-0 learn-span">${item.author}</h6>
+                    </div>
+                    <div class="info pt-3 d-flex justify-content-between">
+                        <div class="rating">${starData}</div>
+                        <span class="learn-span">${item.duration}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `)
+}
+
 
 function getCarouselData1() {
     $.ajax({
@@ -142,17 +229,41 @@ function getCarouselData4() {
         );
 };
 
-function getCourses() {
+function getCoursesFilter() {
     $.ajax({
         url: 'https://smileschool-api.hbtn.info/courses',
+        method: "GET",
+        contentType: "application/json",
+        tymeout: 0,
+        beforeSend: isLoaded(true, "#filterBar"),
+        success: function (result) {
+            isLoaded(false, "#filterBar");
+            coursesFilterLoader(result, "#filterBar");
+        }}
+    );
+};
 
-    });
-}; 
+function getCoursesCards() {
+    $.ajax({
+        url: 'https://smileschool-api.hbtn.info/courses',
+        method: "GET",
+        contentType: "application/json",
+        tymeout: 0,
+        beforeSend: isLoaded(true, "#cardsSection"),
+        success: function (result) {
+            const{courses} = result;
+            isLoaded(false, "#cardsSection");
+            courses.forEach((item, i) => {coursesCardLoader(item, i, "#cardsSection")})
+        }}
+    );
+};
 
 $(document).ready(function() {
     getCarouselData1();
     getCarouselData2();
     getCarouselData3();
     getCarouselData4();
+    getCoursesFilter();
+    getCoursesCards();
 })
 
