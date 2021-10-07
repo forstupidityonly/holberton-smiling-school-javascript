@@ -90,52 +90,46 @@ function coursesFilterLoader(result, div) {
     const{topics} = result;
     let topicData = '';
     for (let i = 0; i < topics.length; i++) {
-        let tmp1 = '<a class="dropdown-item" href="#">';
-        let tmp2 = '</a>';
+        let tmp1 = '<option class="dropdown-item"' + 'value="' + i + '"' + '>';
+        let tmp2 = '</option>';
         let tmp3 = tmp1 + topics[i] + tmp2;
         topicData += tmp3
+        console.log(topics[i]);
+        console.log(tmp3);
     }
 
     const{sorts} = result;
     let sortData = '';
     for (let i = 0; i < sorts.length; i++) {
         let tmp0 = sorts[i].replace(/_|\-/, " ");
-        let tmp1 = '<a class="dropdown-item" href="#">';
-        let tmp2 = '</a>';
+        let tmp1 = '<option class="dropdown-item"' + 'value="' + i + '"' + '>';
+        let tmp2 = '</option>';
         let tmp3 = tmp1 + tmp0 + tmp2
         sortData += tmp3
     }
     $(div).append(`
-        <div class="col-6 col-sm-12 col-md-12 col-lg-4 box1">
-            <span class="text-white font-weight-bold drop-down-title">KEYWORDS</span>
+        <div class="col-12 col-sm-12 col-lg-4 box1">
+            <label class="text-white font-weight-bold drop-down-title" for="q">KEYWORDS</label>
             <div class="input-group mb-sm-4">
                 <div class="input-group-prepend">
                     <span class="input-group-text holberton_school-icon-search_1"></span>
                 </div>
-                <input type="text" class="form-control search-text-area" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search by keywords"/>
+                <input type="search" class="form-control search-text-area" id="q" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search by keywords"/>
             </div>
         </div>
-        <div class="col-6 col-sm-12 col-md-6 col-lg-4 box2">
-            <span class="text-white font-weight-bold drop-down-title">TOPIC</span>
-            <div class="dropdown border border-light">
-                <a class="btn dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span>Novice</span>
-                </a>
-                <div class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink">
-                    ${topicData}
-                </div>
+
+        <div class="col-12 col-sm-6 col-lg-4 box2">
+            <div>
+                <label for="topics-dropdown">TOPIC</label>
             </div>
+            <select class="custom-select topic-menu white-bg" id="topics-dropdown" onchange="filterBy(this.value)">${topicData}</select>
         </div>
-        <div class="col-6 col-sm-12 col-md-6 col-lg-4 box3">
-            <span class="text-white font-weight-bold drop-down-title">SORT BY</span>
-            <div class="dropdown border border-light">
-                <a class="btn dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span>Most Popular</span>
-                </a>
-                <div class="dropdown-menu mt-0" aria-labelledby="dropdownMenuLink">
-                    ${sortData}
-                </div>
+
+        <div class="col-12 col-sm-6 col-lg-4 box3">
+            <div>
+                <label for="sorts-dropdown">SORT BY</label>
             </div>
+            <select class="custom-select sort-by-menu white-bg" id="sorts-dropdown" onchange="sortBy(this.value)">${sortData}</select>
         </div>
     `)
 }
@@ -257,6 +251,47 @@ function getCoursesCards() {
         }}
     );
 };
+
+function sortBy(value) {
+    $.ajax({
+        url: 'https://smileschool-api.hbtn.info/courses',
+        method: "GET",
+        contentType: "application/json",
+        tymeout: 0,
+        beforeSend: isLoaded(true, "#cardsSection"),
+        success: function (result) {
+            const{courses} = result;
+            $("#cardsSection").empty();
+            isLoaded(false, "#cardsSection");
+            if (value === "0") {}
+            else if (value === "1") {courses.sort((a, b) => (a.published_at < b.published_at) ? 1 : -1)}
+            else if (value === "2") {courses.sort((a, b) => (a.views < b.views) ? 1 : -1)};
+            courses.forEach((item, i) => {coursesCardLoader(item, i, "#cardsSection")})
+        }
+    });
+}
+
+function filterBy(value) {
+    $.ajax({
+        url: 'https://smileschool-api.hbtn.info/courses',
+        method: "GET",
+        contentType: "application/json",
+        tymeout: 0,
+        beforeSend: isLoaded(true, "#cardsSection"),
+        success: function (result) {
+            const{courses} = result;
+            $("#cardsSection").empty();
+            isLoaded(false, "#cardsSection");
+            let newArray = []
+            if (value === "0") {newArray = courses.filter(function(element){return(element)})}
+            else if (value === "1") {newArray = courses.filter(function(element){return(element.topic === "Novice")})}
+            else if (value === "2") {newArray = courses.filter(function(element){return(element.topic === "Intermediate")})}
+            else if (value === "3") {newArray = courses.filter(function(element){return(element.topic === "Expert")})}
+            console.log(newArray);
+            newArray.forEach((item, i) => {coursesCardLoader(item, i, "#cardsSection")})
+        }
+    });
+}
 
 $(document).ready(function() {
     getCarouselData1();
