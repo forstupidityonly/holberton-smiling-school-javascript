@@ -2,7 +2,6 @@ function isLoaded(status, element) {
     if(status) {
         $(element).wrap('<div class="loader"></div>');
     } else {
-        console.log("test1");
         $(element).unwrap();
     }
 }
@@ -94,8 +93,6 @@ function coursesFilterLoader(result, div) {
         let tmp2 = '</option>';
         let tmp3 = tmp1 + topics[i] + tmp2;
         topicData += tmp3
-        console.log(topics[i]);
-        console.log(tmp3);
     }
 
     const{sorts} = result;
@@ -114,7 +111,7 @@ function coursesFilterLoader(result, div) {
                 <div class="input-group-prepend">
                     <span class="input-group-text holberton_school-icon-search_1"></span>
                 </div>
-                <input type="search" class="form-control search-text-area" id="q" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search by keywords"/>
+                <input type="search" onsearch="searchBy()" class="form-control search-text-area" id="q" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search by keywords"/>
             </div>
         </div>
 
@@ -287,10 +284,33 @@ function filterBy(value) {
             else if (value === "1") {newArray = courses.filter(function(element){return(element.topic === "Novice")})}
             else if (value === "2") {newArray = courses.filter(function(element){return(element.topic === "Intermediate")})}
             else if (value === "3") {newArray = courses.filter(function(element){return(element.topic === "Expert")})}
-            console.log(newArray);
             newArray.forEach((item, i) => {coursesCardLoader(item, i, "#cardsSection")})
         }
     });
+}
+
+function searchBy() {
+    $.ajax({
+        url: 'https://smileschool-api.hbtn.info/courses',
+        method: "GET",
+        contentType: "application/json",
+        tymeout: 0,
+        beforeSend: isLoaded(true, "#cardsSection"),
+        success: function (result) {
+            const{courses} = result;
+            $("#cardsSection").empty();
+            isLoaded(false, "#cardsSection");
+            let newArray = []
+            courses.forEach((item, i) => {
+                item.keywords.forEach((element, j) => {
+                    //console.log(typeof element);
+                    //console.log(typeof $("#q").val());
+                    if (element === $("#q").val()) {newArray += item}
+                })
+            })
+            newArray.forEach((item, i) => {coursesCardLoader(item, i, "#cardsSection")})
+    }
+});
 }
 
 $(document).ready(function() {
